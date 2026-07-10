@@ -19,14 +19,14 @@ jobs:
               with:
                 python-version: "3.13"
 
-#            - name: Install uv
-#              uses: astral-sh/setup-uv@v6
+            - name: Install uv
+              uses: astral-sh/setup-uv@v6
 
-#            - name: Install Dependencies
-#              run: uv sync --locked --group dev
+            - name: Install Dependencies
+              run: uv sync --locked --group dev
 
-#            - name: lint with Ruff
-#              run: uv run ruff check .
+            - name: lint with Ruff
+              run: uv run ruff check .
 
 #            - name: Type Check with MyPy
 #              run: uv run mypy backend
