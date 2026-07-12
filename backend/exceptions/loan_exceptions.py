@@ -6,7 +6,7 @@ class LoanNotFoundError(LoanError):
     """Raised when a loan cannot be found."""
 
 
-class LoanAlreadyBorrowedError(LoanError):
+class LoanBookAlreadyBorrowedError(LoanError):
     """Raised when a member already has an active loan for the same book."""
 
 
