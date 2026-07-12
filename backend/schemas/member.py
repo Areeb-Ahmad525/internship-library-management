@@ -1,20 +1,38 @@
-from pydantic import BaseModel, ConfigDict
+from typing import Annotated
+
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
 class MemberCreate(BaseModel):
-    name: str
-    email: str
+    name: Annotated[
+        str,
+        Field(
+            min_length=2,
+            max_length=255,
+            strip_whitespace=True,
+        ),
+    ]
+
+    email: EmailStr
 
 
 class MemberUpdate(BaseModel):
-    name: str | None = None
-    email: str | None = None
+    name: Annotated[
+        str | None,
+        Field(
+            min_length=2,
+            max_length=255,
+            strip_whitespace=True,
+        ),
+    ] = None
+
+    email: EmailStr | None = None
 
 
 class MemberResponse(BaseModel):
     id: int
     name: str
-    email: str
+    email: EmailStr
 
     model_config = ConfigDict(
         from_attributes=True,

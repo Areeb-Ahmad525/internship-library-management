@@ -1,21 +1,71 @@
-from pydantic import BaseModel, ConfigDict
+from typing import Annotated
+
+from pydantic import BaseModel, ConfigDict, Field
 
 from database.models.enums import BookStatus
 
 
 class BookCreate(BaseModel):
-    title: str
-    author: str
-    total_copies: int
-    available_copies: int
+    title: Annotated[
+        str,
+        Field(
+            min_length=2,
+            max_length=255,
+            strip_whitespace=True,
+        ),
+    ]
+
+    author: Annotated[
+        str,
+        Field(
+            min_length=2,
+            max_length=255,
+            strip_whitespace=True,
+        ),
+    ]
+
+    total_copies: Annotated[
+        int,
+        Field(gt=0),
+    ]
+
+    available_copies: Annotated[
+        int,
+        Field(ge=0),
+    ]
+
     status: BookStatus = BookStatus.AVAILABLE
 
 
 class BookUpdate(BaseModel):
-    title: str | None = None
-    author: str | None = None
-    total_copies: int | None = None
-    available_copies: int | None = None
+    title: Annotated[
+        str | None,
+        Field(
+            min_length=2,
+            max_length=255,
+            strip_whitespace=True,
+        ),
+    ] = None
+
+    author: Annotated[
+        str | None,
+        Field(
+            min_length=2,
+            max_length=255,
+            strip_whitespace=True,
+        ),
+    ] = None
+
+    total_copies: Annotated[
+        int | None,
+        Field(gt=0),
+    ] = None
+
+    available_copies: Annotated[
+        int | None,
+        Field(ge=0),
+    ] = None
+
     status: BookStatus | None = None
 
 
