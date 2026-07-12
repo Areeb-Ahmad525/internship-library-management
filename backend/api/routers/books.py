@@ -1,8 +1,14 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
+
+from database.models.book import Book
 
 from backend.api.dependencies import get_book_service
-from backend.schemas import BookResponse
 from backend.services.book_service import BookService
+from backend.schemas import (
+    BookCreate,
+    BookResponse,
+    BookUpdate
+)
 
 
 router = APIRouter(
@@ -19,6 +25,7 @@ def get_books(
     service: BookService = Depends(get_book_service),
 ) -> list[BookResponse]:
     return service.get_all_books()
+
 
 @router.get(
     "/search",
@@ -42,3 +49,57 @@ def get_book(
     return service.get_book(book_id)
 
 
+
+
+# post/books
+@router.post(
+    "/",
+    response_model=BookResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_book(
+    book: BookCreate,
+    service: BookService = Depends(get_book_service),
+) -> BookResponse:
+
+    new_book = Book(
+        title=book.title,
+        author=book.author,
+        total_copies=book.total_copies,
+        available_copies=book.available_copies,
+        status=book.status,
+    )
+
+    return service.create_book(new_book)
+
+
+@router.put(
+    "/{book_id}",
+    response_model=BookResponse,
+)
+def update_book(
+    book_id: int,
+    book: BookUpdate,
+    service: BookService = Depends(get_book_service),
+) -> BookResponse:
+
+    return service.update_book(
+        book_id=book_id,
+        title=book.title,
+        author=book.author,
+        total_copies=book.total_copies,
+        available_copies=book.available_copies,
+        status=book.status,
+    )
+
+
+@router.delete(
+    "/{book_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+def delete_book(
+    book_id: int,
+    service: BookService = Depends(get_book_service),
+) -> None:
+
+    service.soft_delete_book(book_id)
