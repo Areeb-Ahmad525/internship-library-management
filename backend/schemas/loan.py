@@ -33,6 +33,7 @@ class LoanResponse(BaseModel):
         from_attributes=True,
     )
 
+
 class LoanUpdate(BaseModel):
     return_date: datetime | None = None
     status: LoanStatus | None = None

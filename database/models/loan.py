@@ -12,7 +12,6 @@ if TYPE_CHECKING:
     from database.models.member import Member
 
 
-
 class Loan(Base):
     __tablename__ = "loans"
 
@@ -24,24 +23,24 @@ class Loan(Base):
 
     book_id: Mapped[int] = mapped_column(
         ForeignKey("books.id"),
-        nullable = False,
-        index = True,
+        nullable=False,
+        index=True,
     )
 
     member_id: Mapped[int] = mapped_column(
         ForeignKey("members.id"),
-        nullable = False,
-        index = True,
+        nullable=False,
+        index=True,
     )
 
     borrow_date: Mapped[datetime] = mapped_column(
         DateTime,
-        nullable = False,
+        nullable=False,
     )
 
     due_date: Mapped[datetime] = mapped_column(
         DateTime,
-        nullable = False,
+        nullable=False,
     )
 
     return_date: Mapped[datetime | None] = mapped_column(

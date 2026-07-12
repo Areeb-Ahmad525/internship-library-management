@@ -1,19 +1,20 @@
 from fastapi import APIRouter, Depends, status
 
-from database.models.member import Member
-
 from backend.api.dependencies import get_member_service
-from backend.services.member_service import MemberService
+from backend.auth.dependencies import require_role
 from backend.schemas import (
-    MemberResponse,
     MemberCreate,
+    MemberResponse,
     MemberUpdate,
 )
-
+from backend.services.member_service import MemberService
+from database.models.enums import UserRole
+from database.models.member import Member
 
 router = APIRouter(
     prefix="/members",
     tags=["Members"],
+    dependencies=[Depends(require_role(UserRole.LIBRARIAN))],
 )
 
 

@@ -27,4 +27,60 @@ dev = [
     "mypy>=2.2.0",
     "pytest>=9.1.1",
     "ruff>=0.15.21",
+    "httpx>=0.28.1",
+    "pytest-cov>=6.0.0",
+    "black>=26.5.1",
+    "isort>=8.0.1",
 ]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.black]
+line-length = 88
+target-version = ["py313"]
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+strict = true
+exclude = ["alembic", ".venv", "migrations", "tests", "backend/cli"]
+explicit_package_bases = true
+disable_error_code = [
+    "return-value",
+    "call-arg",
+    "assignment",
+    "attr-defined",
+    "type-arg",
+    "no-any-return",
+    "arg-type",
+    "no-untyped-def",
+    "no-untyped-call"
+]
+
+[[tool.mypy.overrides]]
+module = [
+    "passlib.*",
+    "bcrypt.*",
+    "pytest.*",
+    "jwt.*",
+    "jose.*"
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+pythonpath = "."
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "--cov=backend --cov-report=term-missing --cov-fail-under=80 -v"
+
+[tool.coverage.run]
+source = ["backend"]
+omit = ["__init__.py", "migrations/*", "tests/*"]
+
+[tool.coverage.report]
+fail_under = 80

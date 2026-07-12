@@ -1,21 +1,16 @@
-import typer
-
 from collections.abc import Generator
 from datetime import datetime
 
+import typer
 from sqlalchemy.orm import Session
 
 from backend.cli.dependencies import (
     get_db,
     get_loan_service,
 )
-
-from backend.services.loan_service import LoanService
-
-from database.models.loan import Loan
-
 from backend.exceptions import LoanError
-
+from backend.services.loan_service import LoanService
+from database.models.loan import Loan
 
 app = typer.Typer(
     help="Loan management commands",
@@ -52,9 +47,7 @@ def borrow_book(
 
         created_loan = service.borrow_book(loan)
 
-        typer.echo(
-            f"Loan created successfully (ID: {created_loan.id})"
-        )
+        typer.echo(f"Loan created successfully (ID: {created_loan.id})")
 
     except LoanError as error:
         typer.echo(f"Error: {error}")
@@ -62,7 +55,6 @@ def borrow_book(
 
     finally:
         db_generator.close()
-
 
 
 @app.command("return")
@@ -138,7 +130,6 @@ def active_loans() -> None:
         db_generator.close()
 
 
-
 @app.command("member")
 def member_loans(
     member_id: int,
@@ -154,9 +145,7 @@ def member_loans(
 
         for loan in loans:
             typer.echo(
-                f"[{loan.id}] "
-                f"Book={loan.book_id} "
-                f"Status={loan.status.value}"
+                f"[{loan.id}] " f"Book={loan.book_id} " f"Status={loan.status.value}"
             )
 
     except LoanError as error:
@@ -212,5 +201,3 @@ def delete_loan(
 
     finally:
         db_generator.close()
-
-

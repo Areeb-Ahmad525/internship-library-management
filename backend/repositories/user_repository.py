@@ -35,12 +35,9 @@ class UserRepository:
         self,
         user_id: int,
     ) -> User | None:
-        statement = (
-            select(User)
-            .where(
-                User.id == user_id,
-                User.is_deleted.is_(False),
-            )
+        statement = select(User).where(
+            User.id == user_id,
+            User.is_deleted.is_(False),
         )
 
         return self.session.scalar(statement)
@@ -49,12 +46,9 @@ class UserRepository:
         self,
         username: str,
     ) -> User | None:
-        statement = (
-            select(User)
-            .where(
-                User.username == username,
-                User.is_deleted.is_(False),
-            )
+        statement = select(User).where(
+            User.username == username,
+            User.is_deleted.is_(False),
         )
 
         return self.session.scalar(statement)
@@ -63,12 +57,9 @@ class UserRepository:
         self,
         email: str,
     ) -> User | None:
-        statement = (
-            select(User)
-            .where(
-                User.email == email,
-                User.is_deleted.is_(False),
-            )
+        statement = select(User).where(
+            User.email == email,
+            User.is_deleted.is_(False),
         )
 
         return self.session.scalar(statement)

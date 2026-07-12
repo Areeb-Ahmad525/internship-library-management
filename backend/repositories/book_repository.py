@@ -1,10 +1,8 @@
-from sqlalchemy import select , or_
-
+from sqlalchemy import or_, select
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from database.models.book import Book
-
-from sqlalchemy.exc import SQLAlchemyError
 
 
 class BookRepository:
@@ -26,30 +24,26 @@ class BookRepository:
         except SQLAlchemyError:
             self.db.rollback()
             raise
-    
-    def get_by_id(self,book_id: int) -> Book | None:
+
+    def get_by_id(self, book_id: int) -> Book | None:
         """Return a non-deleted book by its ID."""
-        
+
         statement = select(Book).where(
             Book.id == book_id,
             Book.is_deleted.is_(False),
-            )
-
-        result = self.db.execute(statement)
-
-        return result.scalar_one_or_none()
-    
-    def get_all(self) -> list[Book]:
-        statement = (
-            select(Book)
-            .where(Book.is_deleted.is_(False))
-            .order_by(Book.id)
         )
 
         result = self.db.execute(statement)
 
+        return result.scalar_one_or_none()
+
+    def get_all(self) -> list[Book]:
+        statement = select(Book).where(Book.is_deleted.is_(False)).order_by(Book.id)
+
+        result = self.db.execute(statement)
+
         return list(result.scalars().all())
-    
+
     def search(self, query: str) -> list[Book]:
         statement = (
             select(Book)
@@ -65,7 +59,7 @@ class BookRepository:
 
         result = self.db.execute(statement)
 
-        return list(result.scalars().all())  
+        return list(result.scalars().all())
 
     def update(self, book: Book) -> Book:
         try:
@@ -100,5 +94,3 @@ class BookRepository:
         result = self.db.execute(statement)
 
         return result.scalar_one_or_none()
-    
-    

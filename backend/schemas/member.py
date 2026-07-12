@@ -1,12 +1,12 @@
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
+from pydantic import BaseModel, ConfigDict, EmailStr, StringConstraints
 
 
 class MemberCreate(BaseModel):
     name: Annotated[
         str,
-        Field(
+        StringConstraints(
             min_length=2,
             max_length=255,
             strip_whitespace=True,
@@ -19,7 +19,7 @@ class MemberCreate(BaseModel):
 class MemberUpdate(BaseModel):
     name: Annotated[
         str | None,
-        Field(
+        StringConstraints(
             min_length=2,
             max_length=255,
             strip_whitespace=True,

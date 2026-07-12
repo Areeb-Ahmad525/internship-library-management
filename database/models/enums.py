@@ -17,3 +17,4 @@ class LoanStatus(str, Enum):
 class UserRole(str, Enum):
     LIBRARIAN = "LIBRARIAN"
     MEMBER = "MEMBER"
+    ADMIN = "ADMIN"

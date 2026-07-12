@@ -1,21 +1,18 @@
 from collections.abc import Generator
 
 from fastapi import Depends
-
 from sqlalchemy.orm import Session
 
-from database.session import SessionLocal
-
 from backend.repositories.book_repository import BookRepository
-from backend.repositories.member_repository import MemberRepository
 from backend.repositories.loan_repository import LoanRepository
-
-from backend.services.book_service import BookService
-from backend.services.member_service import MemberService
-from backend.services.loan_service import LoanService
-
+from backend.repositories.member_repository import MemberRepository
 from backend.repositories.user_repository import UserRepository
 from backend.services.auth_service import AuthService
+from backend.services.book_service import BookService
+from backend.services.loan_service import LoanService
+from backend.services.member_service import MemberService
+from backend.services.user_service import UserService
+from database.session import SessionLocal
 
 
 def get_db() -> Generator[Session, None, None]:
@@ -26,7 +23,6 @@ def get_db() -> Generator[Session, None, None]:
 
     finally:
         db.close()
-
 
 
 def get_book_service(
@@ -69,3 +65,9 @@ def get_auth_service(
     repository: UserRepository = Depends(get_user_repository),
 ) -> AuthService:
     return AuthService(repository)
+
+
+def get_user_service(
+    repository: UserRepository = Depends(get_user_repository),
+) -> UserService:
+    return UserService(repository)

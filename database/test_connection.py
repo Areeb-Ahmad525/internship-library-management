@@ -1,5 +1,7 @@
 from sqlalchemy import text
+
 from database.session import SessionLocal
+
 
 def test_connection():
 
@@ -15,4 +17,3 @@ def test_connection():
 
 if __name__ == "__main__":
     test_connection()
-    

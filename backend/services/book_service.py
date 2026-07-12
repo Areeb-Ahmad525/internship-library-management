@@ -1,13 +1,11 @@
-from database.models.book import Book
-from database.models.enums import BookStatus
-
 from backend.exceptions import (
     BookNotFoundError,
     DuplicateBookError,
     InvalidBookCopiesError,
 )
-
 from backend.repositories.book_repository import BookRepository
+from database.models.book import Book
+from database.models.enums import BookStatus
 
 
 class BookService:
@@ -21,27 +19,19 @@ class BookService:
         available_copies: int,
     ) -> None:
         if total_copies <= 0:
-            raise InvalidBookCopiesError(
-                "Total copies must be greater than zero."
-            )
+            raise InvalidBookCopiesError("Total copies must be greater than zero.")
 
         if available_copies < 0:
-            raise InvalidBookCopiesError(
-                "Available copies cannot be negative."
-            )
+            raise InvalidBookCopiesError("Available copies cannot be negative.")
 
         if available_copies > total_copies:
-            raise InvalidBookCopiesError(
-                "Available copies cannot exceed total copies."
-            )
+            raise InvalidBookCopiesError("Available copies cannot exceed total copies.")
 
     def create_book(self, book: Book) -> Book:
         existing_book = self.repository.get_by_title(book.title)
 
         if existing_book is not None:
-            raise DuplicateBookError(
-                f"Book '{book.title}' already exists."
-            )
+            raise DuplicateBookError(f"Book '{book.title}' already exists.")
 
         self._validate_book_copies(
             book.total_copies,
@@ -54,9 +44,7 @@ class BookService:
         book = self.repository.get_by_id(book_id)
 
         if book is None:
-            raise BookNotFoundError(
-                f"Book with ID {book_id} not found."
-            )
+            raise BookNotFoundError(f"Book with ID {book_id} not found.")
 
         return book
 
@@ -82,9 +70,7 @@ class BookService:
             duplicate = self.repository.get_by_title(title)
 
             if duplicate is not None and duplicate.id != book.id:
-                raise DuplicateBookError(
-                    f"Book '{title}' already exists."
-                )
+                raise DuplicateBookError(f"Book '{title}' already exists.")
 
             book.title = title
 

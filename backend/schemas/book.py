@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 from database.models.enums import BookStatus
 
@@ -8,7 +8,7 @@ from database.models.enums import BookStatus
 class BookCreate(BaseModel):
     title: Annotated[
         str,
-        Field(
+        StringConstraints(
             min_length=2,
             max_length=255,
             strip_whitespace=True,
@@ -17,7 +17,7 @@ class BookCreate(BaseModel):
 
     author: Annotated[
         str,
-        Field(
+        StringConstraints(
             min_length=2,
             max_length=255,
             strip_whitespace=True,
@@ -40,7 +40,7 @@ class BookCreate(BaseModel):
 class BookUpdate(BaseModel):
     title: Annotated[
         str | None,
-        Field(
+        StringConstraints(
             min_length=2,
             max_length=255,
             strip_whitespace=True,
@@ -49,7 +49,7 @@ class BookUpdate(BaseModel):
 
     author: Annotated[
         str | None,
-        Field(
+        StringConstraints(
             min_length=2,
             max_length=255,
             strip_whitespace=True,

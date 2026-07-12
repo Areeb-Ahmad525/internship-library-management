@@ -1,5 +1,7 @@
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
+from database.models.enums import UserRole
+
 
 class UserRegister(BaseModel):
     username: str = Field(
@@ -39,3 +41,7 @@ class UserResponse(BaseModel):
     model_config = ConfigDict(
         from_attributes=True,
     )
+
+
+class UserRoleUpdate(BaseModel):
+    role: UserRole

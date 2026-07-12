@@ -1,20 +1,23 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, status
-
-from database.models.loan import Loan
+from fastapi import APIRouter, BackgroundTasks, Depends, status
 
 from backend.api.dependencies import get_loan_service
+from backend.auth.dependencies import require_role
+from backend.background_tasks.audit import log_audit_event
 from backend.schemas import (
     LoanCreate,
     LoanResponse,
 )
 from backend.services.loan_service import LoanService
-
+from database.models.enums import UserRole
+from database.models.loan import Loan
+from database.models.user import User
 
 router = APIRouter(
     prefix="/loans",
     tags=["Loans"],
+    dependencies=[Depends(require_role(UserRole.LIBRARIAN))],
 )
 
 
@@ -71,7 +74,6 @@ def get_loan(
     return service.get_loan(loan_id)
 
 
-
 @router.post(
     "/borrow",
     response_model=LoanResponse,
@@ -79,7 +81,9 @@ def get_loan(
 )
 def borrow_book(
     loan: LoanCreate,
+    background_tasks: BackgroundTasks,
     service: LoanService = Depends(get_loan_service),
+    current_user: User = Depends(require_role(UserRole.LIBRARIAN)),
 ) -> LoanResponse:
 
     new_loan = Loan(
@@ -89,7 +93,9 @@ def borrow_book(
         borrow_date=datetime.now(),
     )
 
-    return service.borrow_book(new_loan)
+    result = service.borrow_book(new_loan)
+    background_tasks.add_task(log_audit_event, "borrow_book", "Loan", result.id, current_user.username)
+    return result
 
 
 @router.post(
@@ -98,11 +104,14 @@ def borrow_book(
 )
 def return_book(
     loan_id: int,
+    background_tasks: BackgroundTasks,
     service: LoanService = Depends(get_loan_service),
+    current_user: User = Depends(require_role(UserRole.LIBRARIAN)),
 ) -> LoanResponse:
 
-    return service.return_book(loan_id)
-
+    result = service.return_book(loan_id)
+    background_tasks.add_task(log_audit_event, "return_book", "Loan", result.id, current_user.username)
+    return result
 
 
 @router.delete(

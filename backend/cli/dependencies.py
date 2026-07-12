@@ -2,15 +2,13 @@ from collections.abc import Generator
 
 from sqlalchemy.orm import Session
 
-from database.session import SessionLocal
-
 from backend.repositories.book_repository import BookRepository
 from backend.repositories.loan_repository import LoanRepository
 from backend.repositories.member_repository import MemberRepository
-
 from backend.services.book_service import BookService
 from backend.services.loan_service import LoanService
 from backend.services.member_service import MemberService
+from database.session import SessionLocal
 
 
 def get_db() -> Generator[Session, None, None]:

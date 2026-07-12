@@ -32,18 +32,14 @@ class LoanRepository:
         result = self.db.execute(statement)
 
         return result.scalar_one_or_none()
-    
+
     def get_all(self) -> list[Loan]:
-        statement = (
-            select(Loan)
-            .where(Loan.is_deleted.is_(False))
-            .order_by(Loan.id)
-        )
+        statement = select(Loan).where(Loan.is_deleted.is_(False)).order_by(Loan.id)
 
         result = self.db.execute(statement)
 
         return list(result.scalars().all())
-    
+
     def get_active_loans(self) -> list[Loan]:
         statement = (
             select(Loan)
@@ -57,7 +53,7 @@ class LoanRepository:
         result = self.db.execute(statement)
 
         return list(result.scalars().all())
-    
+
     def get_by_member(self, member_id: int) -> list[Loan]:
         statement = (
             select(Loan)
@@ -71,7 +67,7 @@ class LoanRepository:
         result = self.db.execute(statement)
 
         return list(result.scalars().all())
-    
+
     def get_by_book(self, book_id: int) -> list[Loan]:
         statement = (
             select(Loan)
@@ -85,7 +81,7 @@ class LoanRepository:
         result = self.db.execute(statement)
 
         return list(result.scalars().all())
-    
+
     def update(self, loan: Loan) -> Loan:
         try:
             self.db.commit()
@@ -96,7 +92,7 @@ class LoanRepository:
         except SQLAlchemyError:
             self.db.rollback()
             raise
-    
+
     def soft_delete(self, loan: Loan) -> Loan:
         try:
             loan.is_deleted = True
@@ -120,5 +116,3 @@ class LoanRepository:
         result = self.db.execute(statement)
 
         return result.scalar_one_or_none()
-    
-    

@@ -1,28 +1,24 @@
-import typer
 from collections.abc import Generator
+
+import typer
 from sqlalchemy.orm import Session
 
 from backend.cli.dependencies import (
-    get_db,
     get_book_service,
+    get_db,
 )
+from backend.exceptions import BookError
 from backend.services.book_service import BookService
 from database.models.book import Book
 from database.models.enums import BookStatus
-
-from backend.exceptions import BookError
-
 
 app = typer.Typer(
     help="Book management commands",
 )
 
 
-def get_service() -> tuple[
-    BookService,
-    Generator[Session, None, None]
-    ]:
-    
+def get_service() -> tuple[BookService, Generator[Session, None, None]]:
+
     db_generator = get_db()
     db = next(db_generator)
 
@@ -52,9 +48,7 @@ def add_book(
 
         created_book = service.create_book(book)
 
-        typer.echo(
-            f"Book created successfully (ID: {created_book.id})"
-        )
+        typer.echo(f"Book created successfully (ID: {created_book.id})")
 
     except BookError as error:
         typer.echo(f"Error: {error}")
@@ -106,11 +100,7 @@ def search_books(
             return
 
         for book in books:
-            typer.echo(
-                f"[{book.id}] "
-                f"{book.title} | "
-                f"{book.author}"
-            )
+            typer.echo(f"[{book.id}] " f"{book.title} | " f"{book.author}")
 
     except BookError as error:
         typer.echo(f"Error: {error}")
@@ -141,9 +131,7 @@ def update_book(
             status=status,
         )
 
-        typer.echo(
-            f"Book '{book.title}' updated successfully."
-        )
+        typer.echo(f"Book '{book.title}' updated successfully.")
 
     except BookError as error:
         typer.echo(f"Error: {error}")

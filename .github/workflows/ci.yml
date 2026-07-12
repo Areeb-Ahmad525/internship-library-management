@@ -23,14 +23,22 @@ jobs:
               uses: astral-sh/setup-uv@v6
 
             - name: Install Dependencies
-              run: uv sync --locked --group dev
+              run: uv sync
 
             - name: lint with Ruff
               run: uv run ruff check .
 
-#            - name: Type Check with MyPy
-#              run: uv run mypy backend
+            - name: format check with Black
+              run: uv run black --check .
+
+            - name: import check with isort
+              run: uv run isort --check-only .
+
+            - name: Type Check with MyPy
+              run: uv run mypy .
+
+            - name: Run Tests & Coverage
+              run: uv run pytest
 
             - name: Verify Workflow
               run: echo "CI pipeline executed successfully."
-

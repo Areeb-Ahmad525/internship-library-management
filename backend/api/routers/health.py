@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 
-
 router = APIRouter(
     prefix="/health",
     tags=["Health"],
@@ -8,7 +7,7 @@ router = APIRouter(
 
 
 @router.get("/")
-def health_check() -> dict[str,str]:
+def health_check() -> dict[str, str]:
     return {
         "status": "healthy",
     }
