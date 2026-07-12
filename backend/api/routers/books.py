@@ -10,6 +10,8 @@ from backend.schemas import (
     BookUpdate
 )
 
+from backend.auth.dependencies import get_current_user
+
 
 router = APIRouter(
     prefix="/books",
@@ -22,6 +24,7 @@ router = APIRouter(
     response_model=list[BookResponse],
 )
 def get_books(
+    current_user: dict = Depends(get_current_user),
     service: BookService = Depends(get_book_service),
 ) -> list[BookResponse]:
     return service.get_all_books()

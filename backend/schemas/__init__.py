@@ -16,6 +16,15 @@ from .loan import (
     LoanResponse,
 )
 
+from .auth import (
+    Token,
+    TokenData,
+    UserLogin,
+    UserRegister,
+    UserResponse,
+)
+
+
 __all__ = [
     "BookCreate",
     "BookUpdate",
@@ -26,4 +35,11 @@ __all__ = [
     "LoanCreate",
     "LoanUpdate",
     "LoanResponse",
+     # Auth
+    "UserRegister",
+    "UserLogin",
+    "UserResponse",
+    "Token",
+    "TokenData",
+    
 ]

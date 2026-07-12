@@ -5,6 +5,7 @@ from backend.api.routers.books import router as books_router
 from backend.api.routers.members import router as members_router
 from backend.api.routers.loans import router as loans_router
 from backend.api.exceptions.exception_handlers import register_exception_handlers
+from backend.api.routers.auth import router as auth_router
 
 
 app = FastAPI(
@@ -19,6 +20,7 @@ app.include_router(health_router)
 app.include_router(books_router)
 app.include_router(members_router)
 app.include_router(loans_router)
+app.include_router(auth_router)
 
 
 @app.get("/")

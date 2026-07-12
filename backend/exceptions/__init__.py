@@ -21,6 +21,12 @@ from .loan_exceptions import (
     LoanNotFoundError,
 )
 
+from .user_exceptions import (
+    InvalidCredentialsError,
+    UserAlreadyExistsError,
+)
+
+
 __all__ = [
     # Book Exceptions
     "BookError",
@@ -41,4 +47,7 @@ __all__ = [
     "LoanNotFoundError",
     "LoanAlreadyBorrowedError",
     "LoanAlreadyReturnedError",
+
+    "UserAlreadyExistsError",
+    "InvalidCredentialsError",
 ]

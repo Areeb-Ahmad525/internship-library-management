@@ -14,6 +14,9 @@ from backend.services.book_service import BookService
 from backend.services.member_service import MemberService
 from backend.services.loan_service import LoanService
 
+from backend.repositories.user_repository import UserRepository
+from backend.services.auth_service import AuthService
+
 
 def get_db() -> Generator[Session, None, None]:
     db = SessionLocal()
@@ -54,3 +57,15 @@ def get_loan_service(
         book_repository=book_repository,
         member_repository=member_repository,
     )
+
+
+def get_user_repository(
+    session: Session = Depends(get_db),
+) -> UserRepository:
+    return UserRepository(session)
+
+
+def get_auth_service(
+    repository: UserRepository = Depends(get_user_repository),
+) -> AuthService:
+    return AuthService(repository)

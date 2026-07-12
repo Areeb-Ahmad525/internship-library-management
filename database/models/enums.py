@@ -12,3 +12,8 @@ class LoanStatus(str, Enum):
     BORROWED = "BORROWED"
     RETURNED = "RETURNED"
     LATE = "LATE"
+
+
+class UserRole(str, Enum):
+    LIBRARIAN = "LIBRARIAN"
+    MEMBER = "MEMBER"
