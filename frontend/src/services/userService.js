@@ -1,7 +1,11 @@
-import { getUsersApi, getUserApi, updateUserRoleApi } from '../api/users';
+import { getUsersApi, getUserByIdApi, getUserApi, updateUserRoleApi } from '../api/users';
 
 export const fetchAllUsers = async (signal) => {
   return await getUsersApi({ signal });
+};
+
+export const fetchUserById = async (userId, signal) => {
+  return await getUserByIdApi(userId, { signal });
 };
 
 export const fetchUser = async (id, signal) => {

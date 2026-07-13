@@ -1,5 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { fetchAllLoans, submitBorrow, submitReturn } from '../services/loanService';
+import {
+  fetchAllLoans,
+  fetchActiveLoans,
+  fetchMemberLoans,
+  fetchBookLoans,
+  submitBorrow,
+  submitReturn,
+  deleteLoan,
+} from '../services/loanService';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
@@ -11,7 +19,7 @@ export const useLoans = (fetchOnMount = true) => {
 
   const abortControllerRef = useRef(null);
 
-  const loadLoans = useCallback(async () => {
+  const loadLoans = useCallback(async (filter = 'ALL') => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -23,7 +31,12 @@ export const useLoans = (fetchOnMount = true) => {
     setError(null);
 
     try {
-      const data = await fetchAllLoans(controller.signal);
+      let data;
+      if (filter === 'ACTIVE') {
+        data = await fetchActiveLoans(controller.signal);
+      } else {
+        data = await fetchAllLoans(controller.signal);
+      }
       setLoans(data);
     } catch (err) {
       if (axios.isCancel(err)) return;
@@ -82,13 +95,27 @@ export const useLoans = (fetchOnMount = true) => {
     };
   }, [loadLoans, fetchOnMount]);
 
+  const remove = async (loanId) => {
+    setSubmitting(true);
+    try {
+      await deleteLoan(loanId);
+      loadLoans();
+      return true;
+    } catch (err) {
+      return false;
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return {
     loans,
     loading,
-    submitting,
     error,
+    submitting,
     refresh: loadLoans,
     borrow,
     returnLoan,
+    remove,
   };
 };

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const LoginPage = () => {
@@ -29,38 +29,52 @@ const LoginPage = () => {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '4rem auto', padding: '1rem' }}>
-      <h1>Login</h1>
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
-      >
-        <div>
-          <label htmlFor="username">Username</label>
-          <input
-            id="username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            style={{ width: '100%', padding: '0.5rem' }}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ width: '100%', padding: '0.5rem' }}
-          />
-        </div>
-        <button type="submit" disabled={isLoading} style={{ padding: '0.5rem' }}>
-          {isLoading ? 'Logging in...' : 'Submit'}
-        </button>
-      </form>
+    <div className="auth-layout">
+      <main>
+        <h1>Login</h1>
+        <form onSubmit={handleSubmit} className="modal-form">
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              autoComplete="username"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="btn btn-primary"
+            style={{ marginTop: '1rem' }}
+          >
+            {isLoading ? 'Logging in...' : 'Submit'}
+          </button>
+        </form>
+        <p
+          style={{
+            textAlign: 'center',
+            marginTop: '1.5rem',
+            fontSize: '0.9rem',
+            color: 'var(--text-secondary)',
+          }}
+        >
+          Don't have an account? <Link to="/register">Register here</Link>
+        </p>
+      </main>
     </div>
   );
 };

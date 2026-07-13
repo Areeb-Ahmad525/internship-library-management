@@ -1,6 +1,6 @@
 import { useAuth } from '../../hooks/useAuth';
 
-const LoanCard = ({ loan, onInitiateReturn }) => {
+const LoanCard = ({ loan, onInitiateReturn, onInitiateDelete }) => {
   const { role } = useAuth();
 
   const formatDate = (dateString) => {
@@ -9,7 +9,7 @@ const LoanCard = ({ loan, onInitiateReturn }) => {
     return date.toLocaleDateString();
   };
 
-  const isOverdue = loan.status === 'ACTIVE' && new Date(loan.due_date) < new Date();
+  const isOverdue = loan.status === 'BORROWED' && new Date(loan.due_date) < new Date();
 
   const getBadgeClass = (status, overdue) => {
     if (status === 'RETURNED') return 'badge-available'; // green
@@ -46,11 +46,26 @@ const LoanCard = ({ loan, onInitiateReturn }) => {
         )}
       </div>
 
-      {role === 'LIBRARIAN' && loan.status === 'ACTIVE' && (
-        <button className="btn btn-primary return-btn" onClick={() => onInitiateReturn(loan)}>
-          Process Return
-        </button>
-      )}
+      <div style={{ display: 'flex', gap: '0.5rem', marginTop: 'auto' }}>
+        {role === 'LIBRARIAN' && loan.status === 'BORROWED' && (
+          <button
+            className="btn btn-primary return-btn"
+            style={{ flex: 1, margin: 0 }}
+            onClick={() => onInitiateReturn(loan)}
+          >
+            Return Book
+          </button>
+        )}
+        {role === 'ADMIN' && (
+          <button
+            className="btn btn-secondary"
+            style={{ flex: 1, backgroundColor: '#c5221f', margin: 0 }}
+            onClick={() => onInitiateDelete(loan)}
+          >
+            Delete
+          </button>
+        )}
+      </div>
     </div>
   );
 };

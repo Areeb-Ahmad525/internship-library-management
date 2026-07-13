@@ -3,7 +3,7 @@ import { useAuth } from '../hooks/useAuth';
 import AccessDenied from '../pages/AccessDenied';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-const RoleRoute = ({ roles }) => {
+const RoleRoute = ({ roles, children }) => {
   const { role, loading } = useAuth();
 
   if (loading) {
@@ -14,7 +14,7 @@ const RoleRoute = ({ roles }) => {
     return <AccessDenied />;
   }
 
-  return <Outlet />;
+  return children ? children : <Outlet />;
 };
 
 export default RoleRoute;

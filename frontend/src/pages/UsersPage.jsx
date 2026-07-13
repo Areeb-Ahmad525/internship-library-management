@@ -4,12 +4,14 @@ import UserGrid from '../components/users/UserGrid';
 import UsersSkeleton from '../components/users/UsersSkeleton';
 import EmptyUsers from '../components/users/EmptyUsers';
 import RoleModal from '../components/users/RoleModal';
+import UserDetailsModal from '../components/users/UserDetailsModal';
 
 const UsersPage = () => {
   const { users, loading, error, submitting, changeRole } = useUsers();
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [viewUserId, setViewUserId] = useState(null);
 
   const handleChangeRoleInitiate = (user) => {
     setSelectedUser(user);
@@ -37,7 +39,11 @@ const UsersPage = () => {
       {!error && !loading && users.length === 0 && <EmptyUsers />}
 
       {!error && !loading && users.length > 0 && (
-        <UserGrid users={users} onChangeRole={handleChangeRoleInitiate} />
+        <UserGrid
+          users={users}
+          onChangeRole={handleChangeRoleInitiate}
+          onViewUser={(id) => setViewUserId(id)}
+        />
       )}
 
       <RoleModal
@@ -46,6 +52,12 @@ const UsersPage = () => {
         onConfirm={handleRoleConfirm}
         user={selectedUser}
         submitting={submitting}
+      />
+
+      <UserDetailsModal
+        isOpen={!!viewUserId}
+        onClose={() => setViewUserId(null)}
+        userId={viewUserId}
       />
     </div>
   );

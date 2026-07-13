@@ -28,7 +28,7 @@ client.interceptors.response.use(
     if (axios.isCancel(error)) {
       return Promise.reject(error);
     }
-    
+
     if (!error.response) {
       toast.error('Network failure. Please check your connection and try again.');
     } else if (error.response.status === 401) {

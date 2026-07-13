@@ -5,6 +5,11 @@ export const getUsersApi = async (config = {}) => {
   return response.data;
 };
 
+export const getUserByIdApi = async (userId, config = {}) => {
+  const response = await client.get(`/users/${userId}`, config);
+  return response.data;
+};
+
 export const getUserApi = async (id, config = {}) => {
   const response = await client.get(`/users/${id}`, config);
   return response.data;

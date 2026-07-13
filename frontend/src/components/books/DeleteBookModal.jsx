@@ -1,17 +1,18 @@
 import { createPortal } from 'react-dom';
 
-const DeleteMemberModal = ({ isOpen, onClose, onConfirm, member, submitting }) => {
-  if (!isOpen || !member) return null;
+const DeleteBookModal = ({ isOpen, onClose, onConfirm, book, submitting }) => {
+  if (!isOpen || !book) return null;
 
   return createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2 style={{ color: '#c5221f' }}>Delete Member</h2>
+        <h2 style={{ color: '#c5221f' }}>Delete Book</h2>
         <p>
-          Are you sure you want to delete <strong>{member.name}</strong>?
+          Are you sure you want to delete <strong>{book.title}</strong> by {book.author}?
         </p>
         <p style={{ fontSize: '0.9rem', color: '#888', marginTop: '1rem' }}>
-          This action cannot be undone. Members with active loans cannot be deleted.
+          This action cannot be undone. Books with active loans may not be deleted depending on
+          backend constraints.
         </p>
 
         <div className="modal-actions">
@@ -21,10 +22,10 @@ const DeleteMemberModal = ({ isOpen, onClose, onConfirm, member, submitting }) =
           <button
             className="btn btn-primary"
             style={{ backgroundColor: '#c5221f' }}
-            onClick={() => onConfirm(member.id)}
+            onClick={() => onConfirm(book.id)}
             disabled={submitting}
           >
-            {submitting ? 'Deleting...' : 'Yes, Delete Member'}
+            {submitting ? 'Deleting...' : 'Yes, Delete Book'}
           </button>
         </div>
       </div>
@@ -33,4 +34,4 @@ const DeleteMemberModal = ({ isOpen, onClose, onConfirm, member, submitting }) =
   );
 };
 
-export default DeleteMemberModal;
+export default DeleteBookModal;

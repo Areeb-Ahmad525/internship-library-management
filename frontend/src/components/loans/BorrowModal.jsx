@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useMembers } from '../../hooks/useMembers';
 
 const BorrowModal = ({ isOpen, onClose, onSubmit, book, submitting }) => {
@@ -31,9 +32,9 @@ const BorrowModal = ({ isOpen, onClose, onSubmit, book, submitting }) => {
     onSubmit(payload);
   };
 
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+  return createPortal(
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h2>Borrow {book.title}</h2>
         <form onSubmit={handleSubmit} className="modal-form">
           <div className="form-group">
@@ -104,7 +105,8 @@ const BorrowModal = ({ isOpen, onClose, onSubmit, book, submitting }) => {
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
 const Sidebar = () => {
-  const { role } = useAuth();
+  const { role, logout } = useAuth();
 
   return (
     <aside className="sidebar">
@@ -36,14 +36,16 @@ const Sidebar = () => {
           </li>
         )}
 
-        <li>
-          <NavLink
-            to="/loans"
-            className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
-          >
-            Loans
-          </NavLink>
-        </li>
+        {['LIBRARIAN', 'ADMIN'].includes(role) && (
+          <li>
+            <NavLink
+              to="/loans"
+              className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}
+            >
+              Loans
+            </NavLink>
+          </li>
+        )}
 
         {role === 'ADMIN' && (
           <li>

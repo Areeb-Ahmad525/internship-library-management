@@ -3,7 +3,7 @@ import { useAuth } from '../../hooks/useAuth';
 import BorrowModal from '../loans/BorrowModal';
 import { useLoans } from '../../hooks/useLoans';
 
-const BookCard = ({ book, onBorrowSuccess }) => {
+const BookCard = ({ book, onBorrowSuccess, onEdit, onDelete }) => {
   const { role } = useAuth();
   const { borrow, submitting } = useLoans(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,15 +40,28 @@ const BookCard = ({ book, onBorrowSuccess }) => {
         </p>
       </div>
 
-      {role === 'LIBRARIAN' && (
-        <button
-          className="btn btn-primary borrow-btn"
-          onClick={() => setIsModalOpen(true)}
-          disabled={book.status !== 'AVAILABLE' || book.available_copies === 0}
-          title={book.status !== 'AVAILABLE' ? 'Book is not available' : 'Borrow this book'}
-        >
-          Borrow Book
-        </button>
+      {['LIBRARIAN', 'ADMIN'].includes(role) && (
+        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
+          <button
+            className="btn btn-primary"
+            style={{ flex: 1 }}
+            onClick={() => setIsModalOpen(true)}
+            disabled={book.status !== 'AVAILABLE' || book.available_copies === 0}
+            title={book.status !== 'AVAILABLE' ? 'Book is not available' : 'Borrow this book'}
+          >
+            Borrow
+          </button>
+          <button className="btn btn-secondary" style={{ flex: 1 }} onClick={() => onEdit(book)}>
+            Edit
+          </button>
+          <button
+            className="btn btn-secondary"
+            style={{ flex: 1, backgroundColor: '#c5221f' }}
+            onClick={() => onDelete(book)}
+          >
+            Delete
+          </button>
+        </div>
       )}
 
       {isModalOpen && (

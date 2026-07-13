@@ -1,4 +1,4 @@
-const UserCard = ({ user, onChangeRole }) => {
+const UserCard = ({ user, onChangeRole, onViewUser }) => {
   const getBadgeClass = (role) => {
     switch (role) {
       case 'ADMIN':
@@ -20,13 +20,22 @@ const UserCard = ({ user, onChangeRole }) => {
         {user.email}
       </p>
 
-      <button
-        className="btn btn-primary"
-        style={{ marginTop: '1.5rem', width: '100%' }}
-        onClick={() => onChangeRole(user)}
-      >
-        Change Role
-      </button>
+      <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1.5rem' }}>
+        <button
+          className="btn btn-secondary"
+          style={{ flex: 1, margin: 0 }}
+          onClick={() => onViewUser(user.id)}
+        >
+          View Details
+        </button>
+        <button
+          className="btn btn-primary"
+          style={{ flex: 1, margin: 0 }}
+          onClick={() => onChangeRole(user)}
+        >
+          Change Role
+        </button>
+      </div>
     </div>
   );
 };
