@@ -49,8 +49,6 @@ services:
     networks:
       - library_network
 
-    command: tail -f /dev/null
-
   api:
     build:
       context: ..
@@ -79,8 +77,6 @@ services:
     networks:
       - library_network
 
-    command: tail -f /dev/null
-
   frontend:
     build: 
       context: ..
@@ -104,9 +100,6 @@ services:
 
     networks:
       - library_network
-
-    command: tail -f /dev/null
-
 
 volumes:
   postgres_data:

@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from backend.api.exception_handlers import register_exception_handlers
 from backend.api.routers.auth import router as auth_router
@@ -12,6 +13,14 @@ app = FastAPI(
     title="Library Management System API",
     description="REST API for the Library Management System",
     version="1.0.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust this to specific origins in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 register_exception_handlers(app)
