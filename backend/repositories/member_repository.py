@@ -31,7 +31,7 @@ class MemberRepository:
         result = self.db.execute(statement)
 
         return result.scalar_one_or_none()
-    
+
     def get_by_email(self, email: str) -> Member | None:
         statement = select(Member).where(
             Member.email == email,
@@ -41,18 +41,16 @@ class MemberRepository:
         result = self.db.execute(statement)
 
         return result.scalar_one_or_none()
-    
+
     def get_all(self) -> list[Member]:
         statement = (
-            select(Member)
-            .where(Member.is_deleted.is_(False))
-            .order_by(Member.id)
+            select(Member).where(Member.is_deleted.is_(False)).order_by(Member.id)
         )
 
         result = self.db.execute(statement)
 
         return list(result.scalars().all())
-    
+
     def update(self, member: Member) -> Member:
         try:
             self.db.commit()

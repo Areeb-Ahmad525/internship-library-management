@@ -1,21 +1,17 @@
-import typer
-
 from collections.abc import Generator
 
+import typer
 from sqlalchemy.orm import Session
 
 from backend.cli.dependencies import (
     get_db,
     get_member_service,
 )
-
-from backend.services.member_service import MemberService
-
-from database.models.member import Member
-
 from backend.exceptions import (
     MemberError,
 )
+from backend.services.member_service import MemberService
+from database.models.member import Member
 
 app = typer.Typer(
     help="Member management commands",
@@ -33,6 +29,7 @@ def get_service() -> tuple[
 
     return service, db_generator
 
+
 @app.command("add")
 def add_member(
     name: str,
@@ -48,9 +45,7 @@ def add_member(
 
         created_member = service.create_member(member)
 
-        typer.echo(
-            f"Member created successfully (ID: {created_member.id})"
-        )
+        typer.echo(f"Member created successfully (ID: {created_member.id})")
 
     except MemberError as error:
         typer.echo(f"Error: {error}")
@@ -72,11 +67,7 @@ def list_members() -> None:
             return
 
         for member in members:
-            typer.echo(
-                f"[{member.id}] "
-                f"{member.name} | "
-                f"{member.email}"
-            )
+            typer.echo(f"[{member.id}] " f"{member.name} | " f"{member.email}")
 
     except MemberError as error:
         typer.echo(f"Error: {error}")
@@ -101,9 +92,7 @@ def update_member(
             email=email,
         )
 
-        typer.echo(
-            f"Member '{member.name}' updated successfully."
-        )
+        typer.echo(f"Member '{member.name}' updated successfully.")
 
     except MemberError as error:
         typer.echo(f"Error: {error}")
@@ -111,7 +100,6 @@ def update_member(
 
     finally:
         db_generator.close()
-
 
 
 @app.command("delete")
@@ -131,6 +119,3 @@ def delete_member(
 
     finally:
         db_generator.close()
-
-
-

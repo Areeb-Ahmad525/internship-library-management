@@ -14,29 +14,29 @@ class Member(Base):
 
     id: Mapped[int] = mapped_column(
         Integer,
-        primary_key = True,
-        autoincrement = True,
+        primary_key=True,
+        autoincrement=True,
     )
 
     name: Mapped[str] = mapped_column(
         String(255),
-        nullable = False,
-        index = True,
+        nullable=False,
+        index=True,
     )
 
     email: Mapped[str] = mapped_column(
         String(255),
-        nullable = False,
-        unique = True,
-        index = True,
+        nullable=False,
+        unique=True,
+        index=True,
     )
 
     is_deleted: Mapped[bool] = mapped_column(
         Boolean,
-        nullable = False,
-        default = False,
+        nullable=False,
+        default=False,
     )
 
     loans: Mapped[list["Loan"]] = relationship(
-        back_populates = "member",
+        back_populates="member",
     )

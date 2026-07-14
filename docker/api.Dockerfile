@@ -15,10 +15,4 @@ COPY . .
 
 EXPOSE 8000
 
-CMD ["tail", "-f", "/dev/null"]
-#CMD [
-#  "uv", "run", "uvicorn",
-#  "backend.api.main:app",
-#  "--host", "0.0.0.0",
-#  "--port", "8000"
-#]
+CMD ["uv", "run", "uvicorn", "backend.api.main:app", "--host", "0.0.0.0", "--port", "8001"]

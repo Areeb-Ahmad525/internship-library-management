@@ -14,5 +14,4 @@ RUN uv sync --frozen
 
 COPY . .
 
-CMD ["tail", "-f", "/dev/null"]
-#CMD ["uv", "run", "python", "-m", "backend.cli.main"]
+CMD ["uv", "run", "python", "-m", "backend.cli.main"]

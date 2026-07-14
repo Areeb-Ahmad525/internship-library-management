@@ -23,14 +23,29 @@ jobs:
               uses: astral-sh/setup-uv@v6
 
             - name: Install Dependencies
-              run: uv sync --locked --group dev
+              run: uv sync
 
             - name: lint with Ruff
               run: uv run ruff check .
 
-#            - name: Type Check with MyPy
-#              run: uv run mypy backend
+            - name: format check with Black
+              run: uv run black --check .
+
+            - name: import check with isort
+              run: uv run isort --check-only .
+
+            - name: Type Check with MyPy
+              run: uv run mypy .
+
+            - name: Run Tests & Coverage
+              run: uv run pytest
+              env:
+                POSTGRES_USER: test_user
+                POSTGRES_PASSWORD: test_password
+                POSTGRES_DB: test_db
+                POSTGRES_HOST: localhost
+                POSTGRES_PORT: 5432
+                SECRET_KEY: test_secret_key_for_ci_pipeline
 
             - name: Verify Workflow
               run: echo "CI pipeline executed successfully."
-

@@ -1,9 +1,8 @@
 import typer
 
 from backend.cli.books import app as books_app
-from backend.cli.members import app as members_app
 from backend.cli.loans import app as loans_app
-
+from backend.cli.members import app as members_app
 
 app = typer.Typer(
     help="Library Management System CLI",
