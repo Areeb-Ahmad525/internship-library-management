@@ -39,6 +39,13 @@ jobs:
 
             - name: Run Tests & Coverage
               run: uv run pytest
+              env:
+                POSTGRES_USER: test_user
+                POSTGRES_PASSWORD: test_password
+                POSTGRES_DB: test_db
+                POSTGRES_HOST: localhost
+                POSTGRES_PORT: 5432
+                SECRET_KEY: test_secret_key_for_ci_pipeline
 
             - name: Verify Workflow
               run: echo "CI pipeline executed successfully."
