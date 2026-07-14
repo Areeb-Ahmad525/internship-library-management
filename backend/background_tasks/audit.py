@@ -19,4 +19,6 @@ def log_audit_event(
             f"[AUDIT]\naction={action}\nentity={entity}\nentity_id={entity_id}\nuser={username or 'unknown'}"
         )
     except Exception as e:
-        logger.error(f"Failed to write audit log for {action} on {entity} {entity_id}: {e}")
+        logger.error(
+            f"Failed to write audit log for {action} on {entity} {entity_id}: {e}"
+        )

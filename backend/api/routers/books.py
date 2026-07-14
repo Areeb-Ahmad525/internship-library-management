@@ -71,7 +71,9 @@ def create_book(
     )
 
     result = service.create_book(new_book)
-    background_tasks.add_task(log_audit_event, "create_book", "Book", result.id, current_user.username)
+    background_tasks.add_task(
+        log_audit_event, "create_book", "Book", result.id, current_user.username
+    )
     return result
 
 
@@ -109,4 +111,6 @@ def delete_book(
 ) -> None:
 
     service.soft_delete_book(book_id)
-    background_tasks.add_task(log_audit_event, "delete_book", "Book", book_id, current_user.username)
+    background_tasks.add_task(
+        log_audit_event, "delete_book", "Book", book_id, current_user.username
+    )

@@ -94,7 +94,9 @@ def borrow_book(
     )
 
     result = service.borrow_book(new_loan)
-    background_tasks.add_task(log_audit_event, "borrow_book", "Loan", result.id, current_user.username)
+    background_tasks.add_task(
+        log_audit_event, "borrow_book", "Loan", result.id, current_user.username
+    )
     return result
 
 
@@ -110,7 +112,9 @@ def return_book(
 ) -> LoanResponse:
 
     result = service.return_book(loan_id)
-    background_tasks.add_task(log_audit_event, "return_book", "Loan", result.id, current_user.username)
+    background_tasks.add_task(
+        log_audit_event, "return_book", "Loan", result.id, current_user.username
+    )
     return result
 
 

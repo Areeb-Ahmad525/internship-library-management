@@ -48,5 +48,7 @@ def update_user_role(
     current_user: User = Depends(require_role(UserRole.ADMIN)),
 ) -> UserResponse:
     result = service.update_user_role(user_id, role_update.role)
-    background_tasks.add_task(log_audit_event, "update_user_role", "User", result.id, current_user.username)
+    background_tasks.add_task(
+        log_audit_event, "update_user_role", "User", result.id, current_user.username
+    )
     return result

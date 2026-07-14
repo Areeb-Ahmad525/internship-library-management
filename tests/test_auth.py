@@ -1,6 +1,7 @@
 from datetime import timedelta
 from backend.auth.jwt import create_access_token
 
+
 def test_register_success(client):
     response = client.post(
         "/auth/register",
@@ -75,7 +76,6 @@ def test_invalid_token(client):
         "/books/", headers={"Authorization": "Bearer invalid_token_here"}
     )
     assert response.status_code == 401
-
 
 
 def test_expired_token(client, member_user):
