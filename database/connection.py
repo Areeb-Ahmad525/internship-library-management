@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
 
-
 load_dotenv()
 
 DATABASE_URL = URL.create(
@@ -16,8 +15,4 @@ DATABASE_URL = URL.create(
     database=os.getenv("POSTGRES_DB"),
 )
 
-engine = create_engine(
-    DATABASE_URL,
-    echo= False
-)
-
+engine = create_engine(DATABASE_URL, echo=False)

@@ -1,21 +1,19 @@
 from datetime import datetime
 
-from database.models.book import BookStatus
-from database.models.enums import LoanStatus
-from database.models.loan import Loan
-
 from backend.exceptions import (
-    BookNotFoundError,
     BookNotAvailableError,
+    BookNotFoundError,
+    LoanAlreadyBorrowedError,
     LoanAlreadyReturnedError,
     LoanNotFoundError,
     MemberNotFoundError,
-    LoanAlreadyBorrowedError   
 )
-
 from backend.repositories.book_repository import BookRepository
 from backend.repositories.loan_repository import LoanRepository
 from backend.repositories.member_repository import MemberRepository
+from database.models.book import BookStatus
+from database.models.enums import LoanStatus
+from database.models.loan import Loan
 
 
 class LoanService:
@@ -34,26 +32,18 @@ class LoanService:
         book = self.book_repository.get_by_id(loan.book_id)
 
         if book is None:
-            raise BookNotFoundError(
-                f"Book with ID {loan.book_id} not found."
-            )
+            raise BookNotFoundError(f"Book with ID {loan.book_id} not found.")
 
         member = self.member_repository.get_by_id(loan.member_id)
 
         if member is None:
-            raise MemberNotFoundError(
-                f"Member with ID {loan.member_id} not found."
-            )
-        
+            raise MemberNotFoundError(f"Member with ID {loan.member_id} not found.")
+
         if book.status != BookStatus.AVAILABLE:
-            raise BookNotAvailableError(
-                "Book is not available for borrowing."
-            )
+            raise BookNotAvailableError("Book is not available for borrowing.")
 
         if book.available_copies <= 0:
-            raise BookNotAvailableError(
-                "No copies available."
-            )
+            raise BookNotAvailableError("No copies available.")
 
         book.available_copies -= 1
 
@@ -70,21 +60,15 @@ class LoanService:
         loan = self.loan_repository.get_by_id(loan_id)
 
         if loan is None:
-            raise LoanNotFoundError(
-                f"Loan with ID {loan_id} not found."
-            )
+            raise LoanNotFoundError(f"Loan with ID {loan_id} not found.")
 
         if loan.status == LoanStatus.RETURNED:
-            raise LoanAlreadyReturnedError(
-                "Loan has already been returned."
-            )
+            raise LoanAlreadyReturnedError("Loan has already been returned.")
 
         book = self.book_repository.get_by_id(loan.book_id)
 
         if book is None:
-            raise BookNotFoundError(
-                f"Book with ID {loan.book_id} not found."
-            )
+            raise BookNotFoundError(f"Book with ID {loan.book_id} not found.")
 
         loan.status = LoanStatus.RETURNED
         loan.return_date = datetime.now()
@@ -102,9 +86,7 @@ class LoanService:
         loan = self.loan_repository.get_by_id(loan_id)
 
         if loan is None:
-            raise LoanNotFoundError(
-                f"Loan with ID {loan_id} not found."
-            )
+            raise LoanNotFoundError(f"Loan with ID {loan_id} not found.")
 
         return loan
 
@@ -122,9 +104,7 @@ class LoanService:
         member = self.member_repository.get_by_id(member_id)
 
         if member is None:
-            raise MemberNotFoundError(
-                f"Member with ID {member_id} not found."
-            )
+            raise MemberNotFoundError(f"Member with ID {member_id} not found.")
 
         return self.loan_repository.get_by_member(member_id)
 
@@ -136,9 +116,7 @@ class LoanService:
         book = self.book_repository.get_by_id(book_id)
 
         if book is None:
-            raise BookNotFoundError(
-                f"Book with ID {book_id} not found."
-            )
+            raise BookNotFoundError(f"Book with ID {book_id} not found.")
 
         return self.loan_repository.get_by_book(book_id)
 
@@ -146,8 +124,6 @@ class LoanService:
         loan = self.get_loan(loan_id)
 
         if loan.status == LoanStatus.BORROWED:
-            raise LoanAlreadyBorrowedError(
-                "Cannot delete an active loan."
-            )
+            raise LoanAlreadyBorrowedError("Cannot delete an active loan.")
 
         return self.loan_repository.soft_delete(loan)

@@ -1,11 +1,9 @@
-from database.models.member import Member
-
 from backend.exceptions import (
     DuplicateMemberError,
     MemberNotFoundError,
 )
-
 from backend.repositories.member_repository import MemberRepository
+from database.models.member import Member
 
 
 class MemberService:
@@ -27,9 +25,7 @@ class MemberService:
         member = self.repository.get_by_id(member_id)
 
         if member is None:
-            raise MemberNotFoundError(
-                f"Member with ID {member_id} not found."
-            )
+            raise MemberNotFoundError(f"Member with ID {member_id} not found.")
 
         return member
 
@@ -37,9 +33,7 @@ class MemberService:
         member = self.repository.get_by_email(email)
 
         if member is None:
-            raise MemberNotFoundError(
-                f"Member with email '{email}' not found."
-            )
+            raise MemberNotFoundError(f"Member with email '{email}' not found.")
 
         return member
 

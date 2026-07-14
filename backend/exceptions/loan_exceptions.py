@@ -17,5 +17,6 @@ class NoAvailableCopiesError(LoanError):
 class LoanAlreadyReturnedError(LoanError):
     """Raised when attempting to return an already returned book."""
 
+
 class LoanAlreadyBorrowedError(Exception):
     """Raised when attempting to delete an active loan."""

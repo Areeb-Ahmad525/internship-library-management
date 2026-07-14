@@ -6,19 +6,21 @@ from .book_exceptions import (
     DuplicateBookError,
     InvalidBookCopiesError,
 )
-
+from .loan_exceptions import (
+    LoanAlreadyBorrowedError,
+    LoanAlreadyReturnedError,
+    LoanError,
+    LoanNotFoundError,
+)
 from .member_exceptions import (
     DuplicateMemberError,
     MemberError,
     MemberHasActiveLoansError,
     MemberNotFoundError,
 )
-
-from .loan_exceptions import (
-    LoanAlreadyBorrowedError,
-    LoanAlreadyReturnedError,
-    LoanError,
-    LoanNotFoundError,
+from .user_exceptions import (
+    InvalidCredentialsError,
+    UserAlreadyExistsError,
 )
 
 __all__ = [
@@ -29,16 +31,16 @@ __all__ = [
     "InvalidBookCopiesError",
     "BookNotAvailableError",
     "ActiveLoanExistsError",
-
     # Member Exceptions
     "MemberError",
     "MemberNotFoundError",
     "DuplicateMemberError",
     "MemberHasActiveLoansError",
-
     # Loan Exceptions
     "LoanError",
     "LoanNotFoundError",
     "LoanAlreadyBorrowedError",
     "LoanAlreadyReturnedError",
+    "UserAlreadyExistsError",
+    "InvalidCredentialsError",
 ]

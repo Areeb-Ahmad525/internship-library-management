@@ -85,3 +85,12 @@ Thumbs.db
 # Misc
 # ------------------------------------
 .cache/
+
+# ------------------------------------
+# Frontend
+# ------------------------------------
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+.env
