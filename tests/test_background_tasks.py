@@ -1,7 +1,5 @@
 from unittest.mock import patch
 
-from database.models.enums import UserRole
-
 
 def test_borrow_book_background_task(client, librarian_token, db_session):
     from tests.factories.book_factory import create_book
