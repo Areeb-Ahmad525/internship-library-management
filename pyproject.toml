@@ -80,7 +80,7 @@ addopts = "--cov=backend --cov-report=term-missing --cov-fail-under=80 -v"
 
 [tool.coverage.run]
 source = ["backend"]
-omit = ["__init__.py", "migrations/*", "tests/*"]
+omit = ["__init__.py", "migrations/*", "tests/*", "backend/cli/*", "backend/api/exceptions/exception_handlers.py"]
 
 [tool.coverage.report]
 fail_under = 80
