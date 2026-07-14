@@ -27,8 +27,8 @@ def test_borrow_book_background_task(client, librarian_token, db_session):
 
 
 def test_return_book_background_task(client, librarian_token, db_session):
-    from tests.factories.loan_factory import create_loan
     from tests.factories.book_factory import create_book
+    from tests.factories.loan_factory import create_loan
     from tests.factories.member_factory import create_member
 
     book = create_book(db_session)
